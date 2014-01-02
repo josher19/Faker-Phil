@@ -1,4 +1,4 @@
-var Expect, Faker, Phil, build_tag, build_tags, expect, format_image_argument_output, html_safe, parse_image_arguments, pick, tag,
+var Expect, Faker, Phil, build_tag, build_tags, expect, format_image_argument_output, html_safe, parse_image_arguments, pick, rand, tag,
   __hasProp = Object.prototype.hasOwnProperty;
 
 if (typeof require === "function") {
@@ -60,6 +60,11 @@ format_image_argument_output = function(args) {
     }
   }
   return args;
+};
+
+rand = function(n) {
+  if (n == null) n = 1.0;
+  return Math.floor(Math.random() * n);
 };
 
 Phil = (function() {
@@ -179,12 +184,63 @@ Phil.currency = function(num, symbol) {
   return symbol + val;
 };
 
-Phil.date = function(day_window) {
-  var rand, t;
-  t = (typeof Date.now === "function" ? Date.now() : void 0) || new Date().getTime();
-  rand = Math.random();
-  return new Date(day_window ? t - rand * day_window * 86400000 : t * rand);
+Phil.number = function(len) {
+  var _i, _results;
+  return (function() {
+    _results = [];
+    for (var _i = 1; 1 <= len ? _i <= len : _i >= len; 1 <= len ? _i++ : _i--){ _results.push(_i); }
+    return _results;
+  }).apply(this).map(function() {
+    return rand(10);
+  }).join('');
 };
+
+Phil.phone = function(format) {
+  if (format == null) format = "(###) ###-####";
+  return format.replace(/#/g, function() {
+    return rand(9) + 1;
+  });
+};
+
+Phil.date = function(day_window) {
+  var t;
+  t = (typeof Date.now === "function" ? Date.now() : void 0) || new Date().getTime();
+  return new Date(day_window ? t - rand() * day_window * 86400000 : t * rand());
+};
+
+Phil.city = function() {
+  return Faker.Address.city();
+};
+
+Phil.domainName = function() {
+  return Faker.Internet.domainName();
+};
+
+Phil.email = function() {
+  return Faker.Internet.email();
+};
+
+Phil.firstName = function() {
+  return Faker.Name.firstName();
+};
+
+Phil.lastName = function() {
+  return Faker.Name.lastName();
+};
+
+Phil.name = function() {
+  return Faker.Name.name();
+};
+
+Phil.state = function() {
+  return Faker.Address.usState();
+};
+
+Phil.state_abbr = function() {
+  return Faker.random.us_state_abbr();
+};
+
+Phil.body_content = Phil.markup;
 
 Phil.sometimes = function(num_or_content, num) {
   var fn, _i, _j, _results, _results2;

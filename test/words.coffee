@@ -1,5 +1,5 @@
 Phil = require '../Phil'
-expect = Phil.expect unless expect?
+expect = require('./utils').expect
 
 describe 'words', ->
 

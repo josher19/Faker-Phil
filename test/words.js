@@ -2,7 +2,7 @@ var Phil, expect;
 
 Phil = require('../Phil');
 
-if (typeof expect === "undefined" || expect === null) expect = Phil.expect;
+expect = require('./utils').expect;
 
 describe('words', function() {
   var Subject;

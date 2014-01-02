@@ -36,6 +36,8 @@ format_image_argument_output = (args) ->
 
       args
 
+rand = (n=1.0) -> Math.floor( Math.random() * n )
+
 class Phil
 
 pick = Phil.pick = (num) ->
@@ -125,10 +127,41 @@ Phil.currency = (num, symbol = "$") ->
       #sprintf("$%.2f", val)
       symbol + val
 
+Phil.number = (len) ->
+  [1..len].map(-> rand(10)).join('')
+
+Phil.phone = (format = "(###) ###-####") ->
+  format.replace(/#/g,  -> rand(9) + 1)
+
 Phil.date = (day_window) ->
-      t = Date.now?() or new Date().getTime()
-      rand = Math.random()
-      new Date(if day_window then t - rand * day_window * 86400000 else t * rand)
+  t = Date.now?() or new Date().getTime()
+  new Date(if day_window then t - rand() * day_window * 86400000 else t * rand())
+
+Phil.city = -> 
+  Faker.Address.city()
+
+Phil.domainName = ->
+  Faker.Internet.domainName()
+
+Phil.email = ->
+  Faker.Internet.email()
+
+Phil.firstName = ->
+  Faker.Name.firstName()
+
+Phil.lastName = ->
+  Faker.Name.lastName()
+
+Phil.name = ->
+  Faker.Name.name()
+
+Phil.state = ->
+  Faker.Address.usState()
+
+Phil.state_abbr = ->
+  Faker.random.us_state_abbr()
+
+Phil.body_content = Phil.markup
 
 Phil.sometimes = (num_or_content = 3, num = 3) ->
   fn = arguments[arguments.length-1]
