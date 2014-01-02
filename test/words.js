@@ -4,7 +4,7 @@ Phil = require('../Phil');
 
 expect = require('./utils').expect;
 
-describe('words', function() {
+describe('#words', function() {
   var Subject;
   Subject = function() {
     return Phil.words.apply(Phil, arguments);

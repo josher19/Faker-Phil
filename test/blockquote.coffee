@@ -1,7 +1,5 @@
 Phil = require '../Phil'
-utils = require './utils'
-expect = utils.expect unless expect?
-{find_children, expect_element} = utils
+{find_children, expect_element, expect} = require './utils'
 
 describe '#blockquote', ->
   

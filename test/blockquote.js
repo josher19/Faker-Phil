@@ -1,12 +1,8 @@
-var Phil, expect, expect_element, find_children, utils;
+var Phil, expect, expect_element, find_children, _ref;
 
 Phil = require('../Phil');
 
-utils = require('./utils');
-
-if (typeof expect === "undefined" || expect === null) expect = utils.expect;
-
-find_children = utils.find_children, expect_element = utils.expect_element;
+_ref = require('./utils'), find_children = _ref.find_children, expect_element = _ref.expect_element, expect = _ref.expect;
 
 describe('#blockquote', function() {
   context('default value', function() {

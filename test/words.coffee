@@ -1,7 +1,7 @@
 Phil = require '../Phil'
 expect = require('./utils').expect
 
-describe 'words', ->
+describe '#words', ->
 
     Subject = -> Phil.words(arguments...) 
 

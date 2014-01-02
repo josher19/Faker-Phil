@@ -1,4 +1,4 @@
-var Expect, Faker, Phil, build_tag, build_tags, expect, format_image_argument_output, html_safe, parse_image_arguments, pick, rand, tag,
+var Faker, Phil, build_tag, build_tags, format_image_argument_output, html_safe, parse_image_arguments, pick, rand, tag,
   __hasProp = Object.prototype.hasOwnProperty;
 
 if (typeof require === "function") {
@@ -172,9 +172,9 @@ Phil.link_list = function(list_items, item_length) {
 
 Phil.markup = function(pattern) {
   if (pattern == null) pattern = "h1 p p h2 p ol h2 p ul";
-  return html_safe(pattern.split(" ").map(function(t) {
+  return pattern.split(" ").map(function(t) {
     return tag(t);
-  }).join(''));
+  }).join('');
 };
 
 Phil.currency = function(num, symbol) {
@@ -272,24 +272,8 @@ if (typeof module !== "undefined" && module !== null ? module.exports : void 0) 
   module.exports = Phil;
 }
 
-Phil.again = function(ph) {
-  return require.again(ph);
+Phil.again = function(lastmod) {
+  this.lastmod = lastmod;
+  require.cache[require.resolve(this.lastmod)] = null;
+  return require(this.lastmod);
 };
-
-if (typeof expect !== "function") {
-  expect = function(value) {
-    return new Expect(value);
-  };
-  Expect = function(value) {
-    this.value = value;
-  };
-  Expect.prototype.toEqual = function(that, msg) {
-    console.assert(this.value === that, this.value, " !== ", that, msg);
-    return this.value === that;
-  };
-  Expect.prototype.toCover = function(that) {
-    var _ref;
-    return console.assert(this.value.indexOf(that) > -1, ((_ref = this.value) != null ? _ref.length : void 0) || this.value, "does not cover", that);
-  };
-  Phil.expect = expect;
-}

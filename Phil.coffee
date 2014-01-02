@@ -120,7 +120,8 @@ Phil.link_list = (list_items = [3..10], item_length = [1..5]) ->
   build_tag "ul", build_tags("li", (-> "<a href='#'>#{Phil.words(item_length)}</a>"), list_items)
 
 Phil.markup = (pattern="h1 p p h2 p ol h2 p ul") ->
-  html_safe pattern.split(" ").map( (t) -> tag(t) ).join('')
+  #html_safe 
+  pattern.split(" ").map( (t) -> tag(t) ).join('')
 
 Phil.currency = (num, symbol = "$") ->
       val = ((pick(num) * 100) / 100).toFixed(2)
@@ -179,12 +180,6 @@ module.exports = Phil if module?.exports
 
 # phil = Phil;
 
-Phil.again = (ph) -> require.again(ph)
-
-if typeof expect != "function" 
-   expect = (value) -> new Expect(value)
-   Expect = (@value) -> 
-   Expect::toEqual = (that, msg) -> console.assert(@value == that, @value, " !== ", that, msg); @value == that
-   Expect::toCover = (that) -> console.assert @value.indexOf(that) > -1, (@value?.length or @value), "does not cover", that
-   Phil.expect = expect
-
+Phil.again = (@lastmod) -> 
+    require.cache[require.resolve(@lastmod)]=null; 
+    require @lastmod;
