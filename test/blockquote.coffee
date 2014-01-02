@@ -1,14 +1,7 @@
 Phil = require '../Phil'
-expect = Phil.expect unless expect?
-
-find_children = find_elements = (content, tag) ->
-  content.match(RegExp("<#{tag}>", "g")) or {length:0}
-
-expect_element = (content, tag) ->
-  #expect(content).toStartWith "<#{tag}>"
-  expect(content.indexOf("<#{tag}>")).toEqual(0, content)
-  #expect(content).toEndWith "</#{tag}>"
-  expect(content.match(RegExp("<\/#{tag}>$"))?.length).toEqual(1, content)
+utils = require './utils'
+expect = utils.expect unless expect?
+{find_children, expect_element} = utils
 
 describe '#blockquote', ->
   
