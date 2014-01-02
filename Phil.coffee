@@ -125,6 +125,11 @@ Phil.currency = (num, symbol = "$") ->
       #sprintf("$%.2f", val)
       symbol + val
 
+Phil.date = (day_window) ->
+      t = Date.now?() or new Date().getTime()
+      rand = Math.random()
+      new Date(if day_window then t - rand * day_window * 86400000 else t * rand)
+
 Phil.sometimes = (num_or_content = 3, num = 3) ->
   fn = arguments[arguments.length-1]
 

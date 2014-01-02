@@ -1,4 +1,4 @@
-var Expect, Phil, count_words, expect, expect_element, find_children, find_elements;
+var Expect, Phil, Range, count_words, expect, expect_element, find_children, find_elements;
 
 Phil = require('../Phil');
 
@@ -23,8 +23,22 @@ if (typeof expect !== "function") {
   Expect.prototype.toStartWith = function(pat) {
     return console.assert(this.value.indexOf(pat) === 0, this.value, "does not start with", pat);
   };
+  Expect.prototype.toBeA = function(clazz) {
+    var _ref;
+    return console.assert(((_ref = this.value) != null ? _ref.constructor : void 0) === clazz, this.value, "not of class", clazz);
+  };
   Phil.expect = expect;
 }
+
+Range = function(low, high) {
+  this.low = low;
+  this.high = high;
+  return this;
+};
+
+Range.prototype.indexOf = function(val) {
+  return this.low <= val && val < this.high;
+};
 
 find_children = find_elements = function(content, tag) {
   return content.replace(/\n/g, " ").match(RegExp("<" + tag + ">(.+?)</" + tag + ">", "gi")) || [];
@@ -49,6 +63,7 @@ if (typeof module !== "undefined" && module !== null) {
     find_children: find_children,
     expect_element: expect_element,
     expect: expect,
-    count_words: count_words
+    count_words: count_words,
+    Range: Range
   };
 }

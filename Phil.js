@@ -179,6 +179,13 @@ Phil.currency = function(num, symbol) {
   return symbol + val;
 };
 
+Phil.date = function(day_window) {
+  var rand, t;
+  t = (typeof Date.now === "function" ? Date.now() : void 0) || new Date().getTime();
+  rand = Math.random();
+  return new Date(day_window ? t - rand * day_window * 86400000 : t * rand);
+};
+
 Phil.sometimes = function(num_or_content, num) {
   var fn, _i, _j, _results, _results2;
   if (num_or_content == null) num_or_content = 3;
