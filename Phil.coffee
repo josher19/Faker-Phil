@@ -1,8 +1,8 @@
 if typeof require == "function"
   Faker = require 'Faker' 
-  require.again = (mod) -> 
-    require.cache[require.resolve(mod)]=null; 
-    require mod;
+  require.again = (@lastmod=@lastmod) -> 
+    require.cache[require.resolve(@lastmod)]=null; 
+    require @lastmod;
 
 html_safe = (s) ->
    String(s).replace(/&/g, "&amp;").replace(/</g, '&lt;').replace(/>/g, '&gt;')
@@ -98,6 +98,12 @@ Phil.paragraphs = (num) ->
 
 Phil.blockquote = (paragraphs) ->
   tag "blockquote", paragraphs
+
+Phil.ul = (list_items, item_length) ->
+  tag "ul", item_length, list_items
+
+Phil.ol = (list_items, item_length) ->
+  tag "ol", item_length, list_items
 
 Phil.sometimes = (num_or_content = 3, num = 3) ->
   fn = arguments[arguments.length-1]
