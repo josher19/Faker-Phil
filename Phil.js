@@ -112,7 +112,7 @@ tag = function(name, content, children) {
       content || (content = [1, 2, 3]);
       return build_tag(name, Phil.paragraphs(content));
     case "p":
-      return paragraphs(1);
+      return Phil.paragraphs(1);
     default:
       content || (content = [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]);
       return build_tags(name, content);
@@ -147,6 +147,21 @@ Phil.ul = function(list_items, item_length) {
 
 Phil.ol = function(list_items, item_length) {
   return tag("ol", item_length, list_items);
+};
+
+Phil.link_list = function(list_items, item_length) {
+  if (list_items == null) list_items = [3, 4, 5, 6, 7, 8, 9, 10];
+  if (item_length == null) item_length = [1, 2, 3, 4, 5];
+  return build_tag("ul", build_tags("li", (function() {
+    return "<a href='#'>" + (Phil.words(item_length)) + "</a>";
+  }), list_items));
+};
+
+Phil.markup = function(pattern) {
+  if (pattern == null) pattern = "h1 p p h2 p ol h2 p ul";
+  return html_safe(pattern.split(" ").map(function(t) {
+    return tag(t);
+  }).join(''));
 };
 
 Phil.sometimes = function(num_or_content, num) {

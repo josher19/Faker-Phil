@@ -71,7 +71,7 @@ tag = (name, content, children) ->
           content ||= [1..3]
           build_tag name, Phil.paragraphs(content)
         when "p"
-          paragraphs(1)
+          Phil.paragraphs(1)
         else
           content ||= [3..15]
           build_tags name, content
@@ -104,6 +104,12 @@ Phil.ul = (list_items, item_length) ->
 
 Phil.ol = (list_items, item_length) ->
   tag "ol", item_length, list_items
+
+Phil.link_list = (list_items = [3..10], item_length = [1..5]) ->
+  build_tag "ul", build_tags("li", (-> "<a href='#'>#{Phil.words(item_length)}</a>"), list_items)
+
+Phil.markup = (pattern="h1 p p h2 p ol h2 p ul") ->
+  html_safe pattern.split(" ").map( (t) -> tag(t) ).join('')
 
 Phil.sometimes = (num_or_content = 3, num = 3) ->
   fn = arguments[arguments.length-1]
