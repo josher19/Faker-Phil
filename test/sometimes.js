@@ -8,14 +8,16 @@ describe('sometimes', function() {
   var values;
   values = [];
   beforeEach(function() {
-    return values = [];
+    values = [];
+    return;
   });
   it('does something approx. 1/3 of the time by default', function() {
-    var x, _i, _results;
+    var pusher, x, _i, _results;
+    pusher = function(i) {
+      return values.push(i);
+    };
     for (x = 0; x <= 1000; x++) {
-      Phil.sometimes(function(i) {
-        return values.push(i);
-      });
+      Phil.sometimes(pusher);
     }
     expect((function() {
       _results = [];
@@ -25,12 +27,13 @@ describe('sometimes', function() {
     return this;
   });
   it('does something approx. 1/10 of the time', function() {
-    var x, _i, _results;
+    var pusher, x, _i, _results;
+    pusher = function(i) {
+      return values.push(i);
+    };
     values = [];
     for (x = 0; x <= 1000; x++) {
-      Phil.sometimes(10, function(i) {
-        return values.push(i);
-      });
+      Phil.sometimes(10, pusher);
     }
     expect((function() {
       _results = [];

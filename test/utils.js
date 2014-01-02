@@ -17,6 +17,12 @@ if (typeof expect !== "function") {
     var _ref;
     return console.assert(this.value.indexOf(that) > -1, ((_ref = this.value) != null ? _ref.length : void 0) || this.value, "does not cover", that);
   };
+  Expect.prototype.toMatch = function(pat) {
+    return console.assert(this.value.match(pat) !== null, this.value, "does not match", pat);
+  };
+  Expect.prototype.toStartWith = function(pat) {
+    return console.assert(this.value.indexOf(pat) === 0, this.value, "does not start with", pat);
+  };
   Phil.expect = expect;
 }
 

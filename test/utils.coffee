@@ -3,8 +3,14 @@ Phil = require '../Phil'
 if typeof expect != "function" 
    expect = (value) -> new Expect(value)
    Expect = (@value) -> 
-   Expect::toEqual = (that, msg) -> console.assert(@value == that, @value, " !== ", that, msg); @value == that
-   Expect::toCover = (that) -> console.assert @value.indexOf(that) > -1, (@value?.length or @value), "does not cover", that
+   Expect::toEqual = (that, msg) -> 
+      console.assert(@value === that, @value, " !== ", that, msg); @value == that
+   Expect::toCover = (that) -> 
+      console.assert @value.indexOf(that) > -1, (@value?.length or @value), "does not cover", that
+   Expect::toMatch = (pat) -> 
+      console.assert @value.match(pat) != null, @value, "does not match", pat
+   Expect::toStartWith = (pat) -> 
+      console.assert @value.indexOf(pat) == 0, @value, "does not start with", pat
    Phil.expect = expect
 
 find_children = find_elements = (content, tag) ->

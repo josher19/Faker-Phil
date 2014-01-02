@@ -39,6 +39,8 @@ format_image_argument_output = (args) ->
 class Phil
 
 pick = Phil.pick = (num) ->
+   #if typeof num is "number"
+   #  return Math.random()*num
    if num.length && !num.charCodeAt
      return num[Math.floor(Math.random()*num.length)] 
    num
@@ -110,6 +112,11 @@ Phil.link_list = (list_items = [3..10], item_length = [1..5]) ->
 
 Phil.markup = (pattern="h1 p p h2 p ol h2 p ul") ->
   html_safe pattern.split(" ").map( (t) -> tag(t) ).join('')
+
+Phil.currency = (num, symbol = "$") ->
+      val = ((pick(num) * 100) / 100).toFixed(2)
+      #sprintf("$%.2f", val)
+      symbol + val
 
 Phil.sometimes = (num_or_content = 3, num = 3) ->
   fn = arguments[arguments.length-1]

@@ -164,6 +164,13 @@ Phil.markup = function(pattern) {
   }).join(''));
 };
 
+Phil.currency = function(num, symbol) {
+  var val;
+  if (symbol == null) symbol = "$";
+  val = ((pick(num) * 100) / 100).toFixed(2);
+  return symbol + val;
+};
+
 Phil.sometimes = function(num_or_content, num) {
   var fn, _i, _j, _results, _results2;
   if (num_or_content == null) num_or_content = 3;
