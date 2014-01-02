@@ -77,6 +77,14 @@ pick = Phil.pick = function(num) {
   return num;
 };
 
+Phil.loop = function(num, fn) {
+  var i, _ref;
+  for (i = 0, _ref = pick(num) - 1; 0 <= _ref ? i <= _ref : i >= _ref; 0 <= _ref ? i++ : i--) {
+    fn(i);
+  }
+  return i;
+};
+
 /** Private
 */
 

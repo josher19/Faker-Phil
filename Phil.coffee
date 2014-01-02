@@ -45,6 +45,13 @@ pick = Phil.pick = (num) ->
      return num[Math.floor(Math.random()*num.length)] 
    num
 
+Phil.loop = (num, fn) ->
+  for i in [0..pick(num)-1]
+    fn(i)
+  i
+  #end
+#end
+
 ## def build_tags(name, content, elements = 1)
 ##      content_method = if content.is_a? Proc then content else -> { words(content) } end
 ##      pick(elements).times.map { build_tag(name, content_method.call) }.join.html_safe
