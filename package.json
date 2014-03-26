@@ -8,7 +8,7 @@
   },
   "devDependencies2": {
     "mocha": "*",
-    "coffeescript": "1.3.3",
+    "coffee-script": "~1",
     "yadda": "*"
   },
   "directories": {
@@ -16,7 +16,8 @@
     "test": "test"
   },
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "prepublish": "coffee -bc Phil.coffee test/*.coffee"
   },
   "repository": {
     "type": "git",
