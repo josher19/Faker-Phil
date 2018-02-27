@@ -221,7 +221,7 @@ Phil.phone = function(format) {
 Phil.date = function(day_window) {
   var t;
   t = (typeof Date.now === "function" ? Date.now() : void 0) || new Date().getTime();
-  return new Date(day_window ? t - rand() * day_window * 86400000 : t * rand());
+  return new Date(day_window ? t - rand(day_window) * 86400000 : rand(t));
 };
 
 Phil.city = function() {
