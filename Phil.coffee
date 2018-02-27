@@ -136,7 +136,7 @@ Phil.phone = (format = "(###) ###-####") ->
 
 Phil.date = (day_window) ->
   t = Date.now?() or new Date().getTime()
-  new Date(if day_window then t - rand() * day_window * 86400000 else t * rand())
+  new Date(if day_window then t - rand(day_window) * 86400000 else rand(t))
 
 Phil.city = -> 
   Faker.Address.city()
