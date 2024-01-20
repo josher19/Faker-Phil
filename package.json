@@ -1,6 +1,6 @@
 {
   "name": "Faker-Phil",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Lightweight content generation for large amounts of markup for testing",
   "main": "./Phil.js",
   "dependencies": {
