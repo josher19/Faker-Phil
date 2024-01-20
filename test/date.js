@@ -20,7 +20,7 @@ describe('#date', function() {
   return context('custom date window', function() {
     var d, month_ago, now;
     now = (typeof Date.now === "function" ? Date.now() : void 0) || new Date().getTime();
-    month_ago = now - 8640000 * 30;
+    month_ago = now - 30 * 24 * 60 * 60 * 1000;
     d = Phil.date(30);
     return it('returns a date in the last 30 days', function() {
       return expect(new Range(month_ago, now)).toCover(d.getTime());

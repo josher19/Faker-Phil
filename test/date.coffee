@@ -20,7 +20,7 @@ describe '#date', ->
     context 'custom date window', ->
 
       now = Date.now?() || new Date().getTime()
-      month_ago = now - 8640000 * 30
+      month_ago = now - 30 * 24 * 60 * 60 * 1000
       d = Phil.date 30 
 
       it 'returns a date in the last 30 days', ->

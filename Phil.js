@@ -292,10 +292,6 @@ Phil.sometimes = function(num_or_content, num) {
   }
 };
 
-if (typeof module !== "undefined" && module !== null ? module.exports : void 0) {
-  module.exports = Phil;
-}
-
 Phil.reload = function(lastmod) {
   require.cache[require.resolve(lastmod)] = void 0;
   return require(lastmod);
@@ -308,3 +304,7 @@ Phil.range = function(low, high) {
   }
   return Math.round(low + Math.random() * (high - low));
 };
+
+if (typeof module !== "undefined" && module !== null ? module.exports : void 0) {
+  module.exports = Phil;
+}

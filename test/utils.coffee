@@ -1,23 +1,25 @@
 Phil = require '../Phil'
+assert = require 'assert'
 
 if typeof expect != "function" 
    expect = (value) -> new Expect(value)
    Expect = (@value) -> 
-   Expect::toEqual = (that, msg) -> 
-      console.assert(@value == that, @value, " !== ", that, msg); 
-      @value == that
+   Expect::toEqual = (that, msg) ->
+      assert.strictEqual(@value, that, msg);
    Expect::toCover = (that) -> 
-      console.assert @value.indexOf(that) > -1, (@value?.length or @value), "does not cover", that
+      assert @value.indexOf(that) > -1, (@value?.length or JSON.stringify(@value)) + " does not cover " + that
    Expect::toMatch = (pat) -> 
-      console.assert @value.match(pat) != null, @value, "does not match", pat
+      assert @value.match(pat) != null, @value + " does not match " + pat
    Expect::toStartWith = (pat) -> 
-      console.assert @value.indexOf(pat) == 0, @value, "does not start with", pat
+      assert.strictEqual @value.indexOf(pat), 0, @value + " does not start with " + pat
    Expect::toBeA = (clazz) ->
-      console.assert(@value?.constructor == clazz, @value, "not of class", clazz)
+      assert.strictEqual(@value?.constructor, clazz, @value + " not of class " + clazz)
    Phil.expect = expect
 
-Range = (@low,@high) -> @
-Range::indexOf = (val) -> @low <= val && val < @high
+class Range
+  constructor: (@low, @high) -> @
+
+Range::indexOf = (val) -> if @low <= val && val <= @high then 1 else -1
 
 find_children = find_elements = (content, tag) ->
   content.replace(/\n/g, " ").match(RegExp("<#{tag}>(.+?)</#{tag}>", "gi")) or []

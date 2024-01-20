@@ -175,8 +175,6 @@ Phil.sometimes = (num_or_content = 3, num = 3) ->
       if num == Phil.pick([1..num])
         return num_or_content
 
-module.exports = Phil if module?.exports
-
 Phil.reload = (lastmod) -> 
     require.cache[require.resolve(lastmod)] = undefined; 
     require lastmod;
@@ -186,3 +184,5 @@ Phil.range = (low, high) ->
     high = low ? 10
     low = 0
   Math.round low + Math.random() * (high - low)
+
+module.exports = Phil if module?.exports
