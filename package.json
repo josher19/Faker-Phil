@@ -4,16 +4,16 @@
   "description": "Lightweight content generation for large amounts of markup for testing",
   "main": "./Phil.js",
   "dependencies": {
+    "coffee-script": "^1.12.7",
     "Faker": "*"
   },
-  "devDependencies2": {
-    "mocha": "*",
-    "coffee-script": "~1",
-    "yadda": "*"
+  "devDependencies": {
+    "mocha": "*"
   },
   "scripts": {
     "test": "mocha",
-    "prepublish": "coffee -bc Phil.coffee test/*.coffee"
+    "build": "coffee -bc Phil.coffee test",
+    "rebuild": "npm install && npm run build && npm test"
   },
   "repository": {
     "type": "git",

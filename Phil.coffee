@@ -1,8 +1,5 @@
 if typeof require == "function"
   Faker = require 'Faker' 
-  require.again = (@lastmod=@lastmod) -> 
-    require.cache[require.resolve(@lastmod)]=null; 
-    require @lastmod;
 
 html_safe = (s) ->
    String(s).replace(/&/g, "&amp;").replace(/</g, '&lt;').replace(/>/g, '&gt;')
@@ -36,9 +33,11 @@ format_image_argument_output = (args) ->
 
       args
 
-rand = (n=1.0) -> Math.floor( Math.random() * n )
+rand = (n=10) -> Math.floor( Math.random() * n )
 
 class Phil
+
+Phil.rand = rand
 
 pick = Phil.pick = (num) ->
    #if typeof num is "number"
@@ -102,7 +101,7 @@ Phil.image = () ->
 Phil.words = (num) ->
   html_safe Faker.Lorem.words(Phil.pick(num)).join(' ')
 
-Phil.paragraphs = (num) ->
+Phil.paragraphs = (num = Phil.range(1,3)) ->
   content_method = -> Faker.Lorem.paragraphs(1)
   build_tags "p", content_method, pick(num)
 #end
@@ -136,7 +135,7 @@ Phil.phone = (format = "(###) ###-####") ->
 
 Phil.date = (day_window) ->
   t = Date.now?() or new Date().getTime()
-  new Date(if day_window then t - rand() * day_window * 86400000 else t * rand())
+  new Date(if day_window then t - rand(day_window) * 86400000 else rand(t))
 
 Phil.city = -> 
   Faker.Address.city()
@@ -178,8 +177,12 @@ Phil.sometimes = (num_or_content = 3, num = 3) ->
 
 module.exports = Phil if module?.exports
 
-# phil = Phil;
+Phil.reload = (lastmod) -> 
+    require.cache[require.resolve(lastmod)] = undefined; 
+    require lastmod;
 
-Phil.again = (@lastmod) -> 
-    require.cache[require.resolve(@lastmod)]=null; 
-    require @lastmod;
+Phil.range = (low, high) ->
+  if not high?
+    high = low ? 10
+    low = 0
+  Math.round low + Math.random() * (high - low)
