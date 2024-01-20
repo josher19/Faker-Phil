@@ -1,5 +1,5 @@
 if typeof require == "function"
-  Faker = require 'Faker' 
+  Faker = require('@faker-js/faker').faker
 
 html_safe = (s) ->
    String(s).replace(/&/g, "&amp;").replace(/</g, '&lt;').replace(/>/g, '&gt;')
@@ -41,7 +41,7 @@ Phil.rand = rand
 
 pick = Phil.pick = (num) ->
    #if typeof num is "number"
-   #  return Math.random()*num
+   #  return Phil.range(1, num)
    if num.length && !num.charCodeAt
      return num[Math.floor(Math.random()*num.length)] 
    num
@@ -52,11 +52,6 @@ Phil.loop = (num, fn) ->
   i
   #end
 #end
-
-## def build_tags(name, content, elements = 1)
-##      content_method = if content.is_a? Proc then content else -> { words(content) } end
-##      pick(elements).times.map { build_tag(name, content_method.call) }.join.html_safe
-## end
 
 ###* Private ###
 
@@ -98,11 +93,11 @@ Phil.image = () ->
 # opts = format_image_argument_output(parse_image_arguments(200))
 # alert ("http://placehold.it/" + opts['size'] + (opts['color'] || '') + (opts['text'] || ''))
 
-Phil.words = (num) ->
-  html_safe Faker.Lorem.words(Phil.pick(num)).join(' ')
+Phil.words = (num = Phil.range(5,20)) ->
+  html_safe Faker.lorem.words(Phil.pick(num))
 
 Phil.paragraphs = (num = Phil.range(1,3)) ->
-  content_method = -> Faker.Lorem.paragraphs(1)
+  content_method = -> Faker.lorem.paragraphs(1)
   build_tags "p", content_method, pick(num)
 #end
 
@@ -120,9 +115,9 @@ Phil.link_list = (list_items = [3..10], item_length = [1..5]) ->
 
 Phil.markup = (pattern="h1 p p h2 p ol h2 p ul") ->
   #html_safe 
-  pattern.split(" ").map( (t) -> tag(t) ).join('')
+  pattern.split(" ").map( (t) -> tag(t) ).join('\n')
 
-Phil.currency = (num, symbol = "$") ->
+Phil.currency = (num = Phil.range(1,10000)/100, symbol = "$") ->
       val = ((pick(num) * 100) / 100).toFixed(2)
       #sprintf("$%.2f", val)
       symbol + val
@@ -138,28 +133,28 @@ Phil.date = (day_window) ->
   new Date(if day_window then t - rand(day_window) * 86400000 else rand(t))
 
 Phil.city = -> 
-  Faker.Address.city()
+  Faker.location.city()
 
 Phil.domainName = ->
-  Faker.Internet.domainName()
+  Faker.internet.domainName()
 
 Phil.email = ->
-  Faker.Internet.email()
+  Faker.internet.email()
 
 Phil.firstName = ->
-  Faker.Name.firstName()
+  Faker.person.firstName()
 
 Phil.lastName = ->
-  Faker.Name.lastName()
+  Faker.person.lastName()
 
 Phil.name = ->
-  Faker.Name.name()
+  Faker.person.name()
 
 Phil.state = ->
-  Faker.Address.usState()
+  Faker.location.state()
 
 Phil.state_abbr = ->
-  Faker.random.us_state_abbr()
+  Faker.location.state({ abbreviated: true })
 
 Phil.body_content = Phil.markup
 
@@ -175,7 +170,7 @@ Phil.sometimes = (num_or_content = 3, num = 3) ->
       if num == Phil.pick([1..num])
         return num_or_content
 
-Phil.reload = (lastmod) -> 
+Phil.reload = (lastmod = '.') -> 
     require.cache[require.resolve(lastmod)] = undefined; 
     require lastmod;
 

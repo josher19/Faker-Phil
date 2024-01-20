@@ -20,7 +20,7 @@ describe('#paragraphs', function() {
   };
   context('with a single number', function() {
     var argument, subject;
-    argument = 5;
+    argument = Phil.range(1, 5);
     subject = Subject(argument);
     return it('outputs 5 paragraphs', function() {
       return expect(find_elements(subject, 'p').length).toEqual(argument);

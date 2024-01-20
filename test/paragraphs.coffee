@@ -12,7 +12,7 @@ describe '#paragraphs', ->
     context 'with a single number', ->
 
       #let(:argument) { 5 }
-      argument = 5
+      argument = Phil.range(1,5)
       subject = Subject argument
 
       it 'outputs 5 paragraphs', ->

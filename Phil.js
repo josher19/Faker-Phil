@@ -3,7 +3,7 @@ var Faker, Phil, build_tag, build_tags, format_image_argument_output, html_safe,
   hasProp = {}.hasOwnProperty;
 
 if (typeof require === "function") {
-  Faker = require('Faker');
+  Faker = require('@faker-js/faker').faker;
 }
 
 html_safe = function(s) {
@@ -142,7 +142,10 @@ Phil.image = function() {
 };
 
 Phil.words = function(num) {
-  return html_safe(Faker.Lorem.words(Phil.pick(num)).join(' '));
+  if (num == null) {
+    num = Phil.range(5, 20);
+  }
+  return html_safe(Faker.lorem.words(Phil.pick(num)));
 };
 
 Phil.paragraphs = function(num) {
@@ -151,7 +154,7 @@ Phil.paragraphs = function(num) {
     num = Phil.range(1, 3);
   }
   content_method = function() {
-    return Faker.Lorem.paragraphs(1);
+    return Faker.lorem.paragraphs(1);
   };
   return build_tags("p", content_method, pick(num));
 };
@@ -186,11 +189,14 @@ Phil.markup = function(pattern) {
   }
   return pattern.split(" ").map(function(t) {
     return tag(t);
-  }).join('');
+  }).join('\n');
 };
 
 Phil.currency = function(num, symbol) {
   var val;
+  if (num == null) {
+    num = Phil.range(1, 10000) / 100;
+  }
   if (symbol == null) {
     symbol = "$";
   }
@@ -225,35 +231,37 @@ Phil.date = function(day_window) {
 };
 
 Phil.city = function() {
-  return Faker.Address.city();
+  return Faker.location.city();
 };
 
 Phil.domainName = function() {
-  return Faker.Internet.domainName();
+  return Faker.internet.domainName();
 };
 
 Phil.email = function() {
-  return Faker.Internet.email();
+  return Faker.internet.email();
 };
 
 Phil.firstName = function() {
-  return Faker.Name.firstName();
+  return Faker.person.firstName();
 };
 
 Phil.lastName = function() {
-  return Faker.Name.lastName();
+  return Faker.person.lastName();
 };
 
 Phil.name = function() {
-  return Faker.Name.name();
+  return Faker.person.name();
 };
 
 Phil.state = function() {
-  return Faker.Address.usState();
+  return Faker.location.state();
 };
 
 Phil.state_abbr = function() {
-  return Faker.random.us_state_abbr();
+  return Faker.location.state({
+    abbreviated: true
+  });
 };
 
 Phil.body_content = Phil.markup;
@@ -293,6 +301,9 @@ Phil.sometimes = function(num_or_content, num) {
 };
 
 Phil.reload = function(lastmod) {
+  if (lastmod == null) {
+    lastmod = '.';
+  }
   require.cache[require.resolve(lastmod)] = void 0;
   return require(lastmod);
 };

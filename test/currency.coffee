@@ -1,5 +1,5 @@
 Phil = require '../Phil'
-{expect,find_children, expect_element, count_words} = utils = require './utils'
+{expect, find_children, expect_element, count_words} = utils = require './utils'
 
 describe '#currency', ->
 
